@@ -80,7 +80,29 @@ namespace ViccAdatbazis.Controllers
         }
 
         //Lájkolás
+        [Route("{id}/like")]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> LikeVicc(int id)
+        {
+            var vicc = _context.Viccek.Find(id);
+            if (vicc == null) return NotFound();
+            vicc.Tetszik++;
+            _context.Entry(vicc).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
         //Dislájkolás
+        [Route("{id}/dislike")]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> DisLikeVicc(int id)
+        {
+            var vicc = _context.Viccek.Find(id);
+            if (vicc == null) return NotFound();
+            vicc.NemTetszik++;
+            _context.Entry(vicc).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
